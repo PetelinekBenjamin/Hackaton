@@ -156,6 +156,7 @@ export default {
     this.initMap();
     this.initFireIcon();
     this.addPredefinedFires();
+    this.createGrid();
     document.addEventListener("click", this.handleClickOutside);
   },
   unmounted() {
@@ -164,10 +165,56 @@ export default {
   methods: {
     initMap() {
       // Uporaba prejšnje mape z enakimi začetnimi parametri
-      this.map = L.map("map").setView([46.1512, 14.9955], 8); // Osrednja Slovenija
+      this.map = L.map("map").setView([46.1512, 14.9955], 9); // Osrednja Slovenija
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap contributors",
       }).addTo(this.map);
+    },
+    createGrid() {
+      this.gridLayer = L.featureGroup().addTo(this.map);
+
+      // Define the bounds for Slovenia (approximate)
+      const bounds = {
+        north: 46.8769,
+        south: 45.4214,
+        east: 16.5100,
+        west: 13.3750
+      };
+
+      // Create grid lines
+      const gridSize = 0.5; // Grid size in degrees
+      
+      // Draw vertical lines
+      for (let lng = bounds.west; lng <= bounds.east; lng += gridSize) {
+        L.polyline(
+          [
+            [bounds.south, lng],
+            [bounds.north, lng]
+          ],
+          {
+            color: '#000',
+            weight: 1,
+            opacity: 0.3,
+            dashArray: '5, 5'
+          }
+        ).addTo(this.gridLayer);
+      }
+
+      // Draw horizontal lines
+      for (let lat = bounds.south; lat <= bounds.north; lat += gridSize) {
+        L.polyline(
+          [
+            [lat, bounds.west],
+            [lat, bounds.east]
+          ],
+          {
+            color: '#000',
+            weight: 1,
+            opacity: 0.3,
+            dashArray: '5, 5'
+          }
+        ).addTo(this.gridLayer);
+      }
     },
     initFireIcon() {
       this.fireIcon = L.icon({
@@ -370,17 +417,6 @@ button:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.fire-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.fire-icon {
-  font-size: 1.5rem;
-}
-
 .probability-badge {
   padding: 4px 8px;
   border-radius: 12px;
@@ -407,6 +443,15 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.logo-container {
+  padding: 8px 16px;
+}
+
+.logo {
+  height: 40px;
+  width: auto;
 }
 
 .detail-group {
