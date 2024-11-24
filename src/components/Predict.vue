@@ -103,7 +103,6 @@ export default {
     return {
       map: null,
       fires: [
-<<<<<<< HEAD
         {
           lat: 46.1511,
           lng: 14.5551,
@@ -122,129 +121,21 @@ export default {
       ],
       gridData: [], // Holds grid probabilities (mock data)
       gridLayer: null,
-=======
-  {
-    lat: 46.1511,
-    lng: 14.5551,
-    timestamp: "2024-11-23 09:00",
-    probability: "Domzale",
-    features: {
-      ISI: 27.865,
-      RH: 83.0,
-      Rain: 0.0,
-      Temperature: 4.6,
-      Ws: 6.17,
-    },
-    prediction: 13.5,
-  },
-  {
-    lat: 45.6902,
-    lng: 14.3568,
-    timestamp: "2024-11-23 10:30",
-    probability: "Cerknica",
-    features: {
-      ISI: 15.432,
-      RH: 70.5,
-      Rain: 0.2,
-      Temperature: 5.1,
-      Ws: 4.92,
-    },
-    prediction: 6.8,
-  },
-  {
-    lat: 46.0,
-    lng: 15.2183,
-    timestamp: "2024-11-23 11:00",
-    probability: "Sevnica",
-    features: {
-      ISI: 33.124,
-      RH: 60.0,
-      Rain: 0.0,
-      Temperature: 6.8,
-      Ws: 7.45,
-    },
-    prediction: 15.2,
-  },
-],
-      fireIcon: null,
-      fireMarkers: [],
-      showFires: false,
-      menuVisible: false,
->>>>>>> 2979ca65bc835fb7e747389b56ba4e094245350e
     };
   },
   mounted() {
     this.initMap();
     this.initFireIcon();
     this.addPredefinedFires();
-<<<<<<< HEAD
     this.generateGridData(); // Mock grid data
     this.drawGrid(); // Draw the grid
   },
   methods: {
     initMap() {
       this.map = L.map("map").setView([46.1512, 14.9955], 8); // Slovenia
-=======
-    this.createGrid();
-    document.addEventListener("click", this.handleClickOutside);
-  },
-  unmounted() {
-    document.removeEventListener("click", this.handleClickOutside);
-  },
-  methods: {
-    initMap() {
-      // Uporaba prejšnje mape z enakimi začetnimi parametri
-      this.map = L.map("map").setView([46.1512, 14.9955], 9); // Osrednja Slovenija
->>>>>>> 2979ca65bc835fb7e747389b56ba4e094245350e
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap contributors",
       }).addTo(this.map);
-    },
-    createGrid() {
-      this.gridLayer = L.featureGroup().addTo(this.map);
-
-      // Define the bounds for Slovenia (approximate)
-      const bounds = {
-        north: 46.8769,
-        south: 45.4214,
-        east: 16.5100,
-        west: 13.3750
-      };
-
-      // Create grid lines
-      const gridSize = 0.5; // Grid size in degrees
-      
-      // Draw vertical lines
-      for (let lng = bounds.west; lng <= bounds.east; lng += gridSize) {
-        L.polyline(
-          [
-            [bounds.south, lng],
-            [bounds.north, lng]
-          ],
-          {
-            color: '#000',
-            weight: 1,
-            opacity: 0.3,
-            dashArray: '5, 5'
-          }
-        ).addTo(this.gridLayer);
-      }
-
-      // Draw horizontal lines
-      for (let lat = bounds.south; lat <= bounds.north; lat += gridSize) {
-        L.polyline(
-          [
-            [lat, bounds.west],
-            [lat, bounds.east]
-          ],
-          {
-            color: '#000',
-            weight: 1,
-            opacity: 0.3,
-            dashArray: '5, 5'
-          }
-        ).addTo(this.gridLayer);
-      }
     },
     initFireIcon() {
       this.fireIcon = L.icon({
@@ -334,7 +225,6 @@ export default {
   position: relative;
   height: 50px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-<<<<<<< HEAD
 }
 
 .grid-square {
@@ -342,8 +232,6 @@ export default {
   transform: translate(-50%, -50%);
   border-radius: 0; /* Odstranjena za boljše stikanje */
   transition: background-color 0.3s ease, opacity 0.3s ease;
-=======
->>>>>>> 2979ca65bc835fb7e747389b56ba4e094245350e
 }
 
 .menu-container {
@@ -492,7 +380,6 @@ button:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-<<<<<<< HEAD
 .fire-header {
   display: flex;
   justify-content: space-between;
@@ -504,8 +391,6 @@ button:hover {
   font-size: 1.5rem;
 }
 
-=======
->>>>>>> 2979ca65bc835fb7e747389b56ba4e094245350e
 .probability-badge {
   padding: 4px 8px;
   border-radius: 12px;
@@ -534,18 +419,6 @@ button:hover {
   gap: 8px;
 }
 
-<<<<<<< HEAD
-=======
-.logo-container {
-  padding: 8px 16px;
-}
-
-.logo {
-  height: 40px;
-  width: auto;
-}
-
->>>>>>> 2979ca65bc835fb7e747389b56ba4e094245350e
 .detail-group {
   display: flex;
   justify-content: space-between;
@@ -606,25 +479,6 @@ button:hover {
   height: 100%;
   border-radius: 0 0 0 8px;
   overflow: hidden;
-<<<<<<< HEAD
-}
-
-@media (max-width: 768px) {
-  .main-content {
-    flex-direction: column;
-  }
-  
-  .sidebar {
-    width: 100%;
-    height: 40vh;
-  }
-  
-  #map {
-    width: 100%;
-    height: 60vh;
-  }
-=======
->>>>>>> 2979ca65bc835fb7e747389b56ba4e094245350e
 }
 
 @media (max-width: 768px) {

@@ -2,13 +2,17 @@
   <!-- Header -->
    <div class="header">
     <div class="menu-container">
-      <div class="kebab-menu" @click="toggleMenu">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
+      <!-- Change this part -->
+      <div class="header-content">
+        <div class="kebab-menu" @click="toggleMenu">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <img src="/image/firepoint-logo.png" alt="Firepoint Logo" class="logo-position" height="50">
       </div>
       <div v-if="menuVisible" class="dropdown-menu">
-       <a href="/Predict">Predict</a>
+        <a href="/Predict">Predict</a>
       </div>
     </div>
   </div>
@@ -67,6 +71,7 @@ export default {
         { lat: 45.8902, lng: 14.4568, timestamp: '2024-11-23 10:30', area: '3m²' },
         { lat: 46.1512, lng: 15.2189, timestamp: '2024-11-23 11:00', area: '2m²' }
       ],
+      fireImage: '/image/fire.jpg',
       fireIcon: null,
       fireMarkers: [],
       showFires: false,
@@ -144,7 +149,21 @@ export default {
     addPredefinedFires() {
       this.fires.forEach(fire => {
         const marker = L.marker([fire.lat, fire.lng], { icon: this.fireIcon }).addTo(this.map);
-        marker.bindPopup(`Požar na: ${fire.lat.toFixed(4)}, ${fire.lng.toFixed(4)}<br>Čas: ${fire.timestamp}`).openPopup();
+        
+        // Create custom popup content with image
+        const popupContent = `
+          <div class="custom-popup">
+            <div>Požar na: ${fire.lat.toFixed(4)}, ${fire.lng.toFixed(4)}</div>
+            <div>Čas: ${fire.timestamp}</div>
+            <img src="${this.fireImage}" alt="Fire Image" style="width: 200px; height: 200px; object-fit: cover; margin-top: 10px; border-radius: 4px;">
+          </div>
+        `;
+        
+        marker.bindPopup(popupContent, {
+          maxWidth: 220,
+          className: 'custom-popup'
+        });
+        
         this.fireMarkers.push(marker);
       });
     },
@@ -173,7 +192,26 @@ export default {
 </script>
 
 <style scoped>
-/* Header styles */
+
+.logo-position {
+  position: relative;
+  left: 60px;
+}
+
+:global(.custom-popup) {
+  padding: 10px;
+}
+
+:global(.custom-popup .leaflet-popup-content-wrapper) {
+  border-radius: 8px;
+}
+
+:global(.custom-popup .leaflet-popup-content) {
+  margin: 10px;
+  min-width: 200px;
+}
+
+
 .header {
   background: linear-gradient(to right, #2c3e50, #3498db);
   color: white;
@@ -186,24 +224,29 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Kebab menu styles */
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .menu-container {
-  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .kebab-menu {
-  cursor: pointer;
-  padding: 8px;
   display: flex;
   flex-direction: column;
   gap: 3px;
-  width: 24px;
+  padding: 8px;
   height: 24px;
   justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  transition: background-color 0.3s ease;
+ 
+}
+.logo-position {
+  margin-left: 60px;
+  margin-top: 5px;
 }
 
 .kebab-menu:hover {
